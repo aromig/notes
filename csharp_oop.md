@@ -39,10 +39,10 @@ static void printVariable(int thing) {
 Encapsulation is more than combining members (such as fields and methods) in a class. Its purpose is more about "protecting" members of a class and the ability to hide information from other parts of the program.
 
 Fields & methods are accessible:
-* pubilc - outside of the class
+* public - outside of the class
 * private - only from within the class
 * protected - from within the class __AND__ derived classes
-* sealed - only from within the class __AND__ prevents inheritence
+* sealed - only from within the class __AND__ prevents inheritance
 
 Fields that are to be accessed outside of the class should be private. They should be accessed/modified via a _property_ (get, set). This allows regulation of data, verification, and security.
 
@@ -259,4 +259,88 @@ static void Main(string[] args) {
   Console.WriteLine(b3.Width); // 10
 }
 ```
+
+## Inheritance
+
+Inheritance refers to when a class is defined based on another class and it inherits fields & methods from its parent class.
+
+| Base Class | Derived Class |
+|:----------:|:-------------:|
+| base class features|base class features|
+|            | derived class features |
+
+Inheritance allows the derived class to reuse code from the base class without needing to rewrite it.
+
+```
+class Animal {
+  public int Legs { get; set; }
+  public int Age { get; set; }
+}
+
+class Dog : Animal {
+  public Dog() {
+    Legs = 4;
+  }
+  
+  public void Bark() {
+    Console.WriteLine("Woof!");
+  }
+}
+```
+
+### Constructor/Deconstructor order for a derived class
+
+1. base constructor
+2. derived constructor
+3. derived deconstructor
+4. base deconstructor
+
+## Polymorphism
+
+> pol·y·mor·phism /ˌpälēˈmôrfizəm/ noun:
+>
+> _the condition of occurring in several different forms._
+
+__Technical Definition__: Polymorphism occurs when there is a hierarchy of classes and they are related through inheritance from a common base class. A call to a member method will cause a different implementation to be executed depending on the type of object that invokes the method.
+
+__Plain English__: A single method can have a number of different implementations, based on the object that calls it.
+
+### keywords when defining polymorphic methods
+
+__virtual__ - used on the base class method
+
+__override__ - used on the derived class methods
+
+```
+class Hero {
+  public virtual void Weapon() {
+    Console.WriteLine("Fisticuffs");
+  }
+}
+
+class Rogue : Hero {
+  public override void Weapon() {
+    Console.WriteLine("Daggers");
+  }
+}
+
+class Archer : Hero {
+  public override void Weapon() {
+    Console.WriteLine("Bow & Arrows");
+  }
+}
+
+class Warrior : Hero {
+  public override void Weapon() {
+    Console.WriteLine("Sword");
+  }
+}
+
+static void Main(stringp[ args) {
+  Hero new_avatar = new Rogue();
+  new_avatar.Weapon(); // outputs "Daggers"
+}
+```
+
+The use of polymorphism may not seem apparent right away but without it, these different methods would end up being overloaded within the base class to account for every derived class. The methods belong in the derived classes, not the base. It's more about concise and semantic code that will be maintainable. Using the example above, the different Weapon() methods cannot be placed (overloaded) in the base Hero class. Not all heroes know how to use all weapons, only those who trained with them - hence the derived classes for each specialty.
 
