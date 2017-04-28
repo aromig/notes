@@ -227,7 +227,7 @@ static void Main(string[] args) {
 }
 ```
 
-And we would like to add two Box objects to make a bigger Box. We're thinking it should work like ```Box b3 = b1 + 2;```
+And we would like to add two Box objects to make a bigger Box. We're thinking it should work like ```Box b3 = b1 + b2;``` and have the combined heights and widths of the 2 boxes.
 
 We can do so by creating a special method called an __overloaded operator__. The keyword _operator_ is used followed by the symbol for the operator being defined (+, -, *, /). Even comparison operators can be overloaded.
 
