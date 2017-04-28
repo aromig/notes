@@ -342,5 +342,87 @@ static void Main(stringp[ args) {
 }
 ```
 
-The use of polymorphism may not seem apparent right away but without it, these different methods would end up being overloaded within the base class to account for every derived class. The methods belong in the derived classes, not the base. It's more about concise and semantic code that will be maintainable. Using the example above, the different Weapon() methods cannot be placed (overloaded) in the base Hero class. Not all heroes know how to use all weapons, only those who trained with them - hence the derived classes for each specialty.
+The use of polymorphism may not seem apparent right away but without it, these different methods would end up being overloaded within the base class to account for every derived class. The methods belong in the derived classes, not the base. It's more about concise and semantic code that will be maintainable.
+
+Using the example above, the different Weapon() methods cannot be placed (overloaded) in the base Hero class. Not all heroes know how to use all weapons, only those who trained with them - hence the derived classes for each specialty.
+
+## Abstract Classes & Methods
+
+Polymorphism can be taken a step further and the base class can be considered _abstract_, where there is no implmentation. The implementation must be defined in the derived classes.
+
+Abstract classes & methods:
+
+* cannot be instantiated
+* may incldue concrete & abstract members
+* must have their implementations defined in the _derived_ classes for __all__ inherited abstract members.
+
+Why do this? Because in some situations, there is no meaningful need for the virtual method to have a separate definition in the base class. The class is declared as abstract to provide a _template_. This also prevents accidental coding issues when working on a team. Only define a base class as abstract if it is never meant to be used as an object itself.
+
+```
+abstract class Shape {
+  public abstract void Draw();
+}
+
+class Circle : Shape {
+  public override void Draw() {
+    // draw circle stuff
+  }
+}
+
+class Rectangle : Shape {
+  public override void Draw() {
+    // draw rectangle stuff
+  }
+}
+
+static void Main(string[] args) {
+  Shape c = new Circle();
+  c.Draw();
+  // draws circle stuff according to the derived class
+}
+```
+
+## Interfaces
+
+An interface is a completely abstract class, containing only abstract properties and methods (no fields/variables). It's common to preface an interface name with a capital letter I.
+
+An interface simply describes what a class should do. The class implementing the interface must define how to accomplish the behaviors.
+
+```
+public interface IShape {
+  void Draw();
+}
+
+class Circle : IShape {
+  public void Draw() {
+    // draw circular stuff
+  }
+}
+
+static void Main(string[] args) {
+  IShape c = new Circle();
+  c.Draw();
+}
+```
+
+A class can inherit from just one base class but it can implement _multiple_ interfaces. So by using interfaces you can include behavior from multiple sources in a class. ```class A : IShape, IAnimal ```
+
+## Nested Classes
+
+Classes can also be members of another class.
+
+```
+class Car {
+  string model;
+  public Car(string mdl) {
+    model = mdl;
+    Motor m = new Motor();
+  }
+  public class Motor {
+    // more definitions
+  }
+}
+```
+
+Sometimes this is needed for semantics and separation of concerns which in turns makes maintenance and debugging easier in the future.
 
