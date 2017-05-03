@@ -15,6 +15,8 @@ static int Factorial(int num) {
 // Factorial(3) = 3 * Factorial(2) = 3 * 2 * Factorial(1) = 3 * 2 * 1 = 6
 ```
 
+It's very important to have a break-out condition (ex: ```if (num == 1) return 1; ```) so the recursive loop does not go on infinitely, causing an enormous resource drain and eventual crash.
+
 ## Overloading
 
 Multiple methods that have the same name but different parameters (of different datatypes and/or number of parameters).
@@ -32,7 +34,7 @@ static void printVariable(int thing) {
 ## Stack vs Heap (static vs dynamic memory allocation)
 
 * Values -> Stack
-* References (such as objects) -> Heap
+* References (such as objects, pointers) -> Heap
 
 ## Encapsulation
 
@@ -425,4 +427,84 @@ class Car {
 ```
 
 Sometimes this is needed for semantics and separation of concerns which in turns makes maintenance and debugging easier in the future.
+
+## Namespaces
+
+Namespaces are scopes of a program that contain sets of related objects. All .Net framework classes are organized into namespaces and custom namespaces can be created as well. When referencing a class, it can be specified either by its fully qualified name (namespace.class) ``` System.Console.WriteLine("Hello"); ``` or it can be shortened to just the class name if the namespace is specified at the beginning of the source code ``` using System; ``` then later ``` Console.WriteLine("Hello"); ```.
+
+## Structs
+
+A struct is a value type that is used to encapsulate small groups of related variables.
+
+Structs can:
+
+* contain methods, properies, fields, etc.
+* have constructors _with_ parameters.
+
+This differs from a class as it _does not_ support inheritance, virtual methods, etc.
+
+|Structs|Classes|
+|-------|-------|
+|small data structures|complex behavior or data|
+|not intended to be modified after created|intended to be modified after created|
+
+Think of structs as a __custom datatype__!
+
+```
+struct Book {
+  public string title;
+  public double price;
+  public sring author;
+}
+
+struct Point {
+  public int x;
+  public int y;
+  public Point(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
+static void Main(string[] args) {
+  Book myBook;
+  myBook.title = "The Fellowship of the Rings";
+  myBook.author = "J.R.R. Tolkien";
+  myBook.price = 29.99;
+  
+  Point p = new Point(42, 69);
+  
+  Console.WriteLine(myBook.title); // outputs "The Fellowship of the Ring"
+  Console.WriteLine(p.x); // outputs 42
+}
+```
+
+## Enums
+
+Enumerations are types that contain a set of named constants in an indexed list. The indices are consecutive but the numbers can be changed somewhat.
+
+```
+enum Days { Sun, Mon, Tue, Wed, Thu, Fri, Sat };
+// 0, 1, 2, 3, 4, 5, 6
+enum Days { Sun, Mon, Tue = 4, Wed, Thu, Fri, Sat };
+// 0, 1, 4, 5, 6, 7, 8
+
+int x = (int)Days.Thu;
+Console.WriteLine(x); // outputs 6
+```
+
+## Files
+
+__namespace__: using System.IO;
+
+|File.               | Function                       |
+|-------------------:|--------------------------------|
+|.WriteAllText() | Writes/Overwrites file with content|
+|.ReadAllText()  | Reads a file into a string |
+|.AppendAlltext()| Appends text to the end of a file |
+|.Create()       | Creates a new file in a specified location |
+|.Delete()       | Deletes a specified file |
+|.Copy()         | Copies a file to a new location |
+|.Move()         | Moves a file to a new location |
+|.Exists()       | Checks to see if a file exists (bool) |
 
