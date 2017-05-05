@@ -493,12 +493,121 @@ int x = (int)Days.Thu;
 Console.WriteLine(x); // outputs 6
 ```
 
+## Generic Methods
+
+Generic methods allow a method to be used with multiple datatypes. They can be used in place of overloading methods, resulting in less code to write & maintain.
+
+Instead of writing:
+
+```
+static void Swap(ref int a, ref int b) {
+  int temp = a;
+  a = b;
+  b = temp;
+}
+
+static void Swap(ref string a, ref string b) {
+  string temp = a;
+  a = b;
+  b = temp;
+}
+```
+
+We can write:
+
+```
+static void Swap<T>(ref T a, ref T b) {
+  T temp = a;
+  a = b;
+  b = temp;
+}
+```
+
+<T> is a __generic__ type. When calling the method the <T> is replaced by a matching datatype within the angle brackets.
+
+```
+Swap<int>(ref x, ref y);
+
+Swap<string>(ref x, ref y);
+```
+
+Multiple generic types can be specified to a method, seperated with a comma. ``` FunctionName<T,U>( ... ) ```
+
+## Generic Classes
+
+Classes can be generic along the same lines of thinking. A common use for a generic class is for defining collections of items, where adding & removing items are performed in the same way regardless of datatype.
+
+A common generic class is a collection called a stack, where items are __pushed__ (added to the top of the stack) and __popped__ (removed from the top of the stack). This is usually referred to as LIFO (Last In, First Out) since the item that is removed on a pop operation is the last one that was recently added. The .Net Framework has this Stack<T> class built-in under the System.Collections.Generic namespace.
+
+|LIFO Example, credit Wikipedia|
+|:----------------------------:|
+|![LIFO Example, credit Wikipedia](https://raw.githubusercontent.com/aromig/notes/master/images/Lifo_stack.png "LIFO Example, credit Wikipedia")|
+
+While the below example is not the Stack<T> class exactly (and far from a perfect implementation), it should show what we're talking about.
+
+```
+public class Stack<T> {
+  readonly int max_Size;
+  int index = 0;
+  T[] items;
+  
+  public Stack() : this(100) {} // default max_Size of 100
+  public Stack(int size) {
+    max_Size = size;
+    items = new T(max_Size);
+  }
+  
+  public void Push(T item) {  // adds item to top of stack
+    if (index >= max_Size)
+      throw new StackOverflowException();
+    items[index++] = item; // adds item to stack and then increments its actual size
+  }
+  
+  public T Pop() {  // returns item at top of stack, and removes it from stack
+    index--;
+    if (index >= 0) {
+      return items[index];
+    } else {
+      index = 0;
+      throw new InvalidOperationExeption("Stack is empty, cannot Pop");
+    }
+  }
+  
+  public T Peek() { // returns item at top of stack, but leaves it there
+    return items[index - 1];
+  }
+  
+  public T Get(int idx) { // returns specified index of stack
+    return items[idx];
+  }
+}
+
+static void Main(string[] args) {
+  Stack<string> StarWarsMovies = new Stack<string>(9); // creates a new stack of strings that can contain 9 elements
+  
+  StarWarsMovies.Push("The Phantom Menace");
+  StarWarsMovies.Push("Attack of the Clones");
+  StarWarsMovies.Push("Revenge of the Sith");
+  StarWarsMovies.Push("Rogue One");
+  StarWarsMovies.Push("A New Hope");
+  StarWarsMovies.Push("The Empire Strikes Back");
+  StarWarsMovies.Push("Return of the Jedi");
+  StarWarsMovies.Push("The Force Awakens");
+  StarWarsMovies.Push("The Last Jedi");
+  
+  StarWarsMovies.Peek();  // returns "The Last Jedi"
+  StarWarsMovies.Pop();   // returns "The Last Jedi"
+  StarWarsMovies.Peek();  // returns "The Force Awakens"
+  StarWarsMovies.Get(3);  // returns "Rogue One"
+}
+```
+
 ## Files
 
 __namespace__: using System.IO;
 
-|File.               | Function                       |
-|-------------------:|--------------------------------|
+|File.           | Function                       |
+|---------------:|--------------------------------|
 |.WriteAllText() | Writes/Overwrites file with content|
 |.ReadAllText()  | Reads a file into a string |
 |.AppendAlltext()| Appends text to the end of a file |
