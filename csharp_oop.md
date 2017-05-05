@@ -523,7 +523,7 @@ static void Swap<T>(ref T a, ref T b) {
 }
 ```
 
-<T> is a __generic__ type. When calling the method the <T> is replaced by a matching datatype within the angle brackets.
+T is a __generic__ type. When calling the method the T is replaced by a matching datatype within the angle brackets.
 
 ```
 Swap<int>(ref x, ref y);
@@ -543,7 +543,7 @@ A common generic class is a collection called a stack, where items are __pushed_
 |:----------------------------:|
 |![LIFO Example, credit Wikipedia](https://raw.githubusercontent.com/aromig/notes/master/images/Lifo_stack.png "LIFO Example, credit Wikipedia")|
 
-While the below example is not the Stack<T> class exactly (and far from a perfect implementation), it should show what we're talking about.
+While the below example is not the Stack<> class exactly (and far from a perfect implementation), it should show what we're talking about.
 
 ```
 public class Stack<T> {
@@ -673,8 +673,8 @@ foreach (var color in colors) {
 Other Collections:
 
 * Dictionary<TKey, TValue> - key/value pairs
-* Queue<T> - FIFO (First In, First Out)
-* Stack<T> - LIFO (Last In, First Out)
+* Queue<> - FIFO (First In, First Out)
+* Stack<> - LIFO (Last In, First Out)
 
 ## Files
 
