@@ -531,7 +531,7 @@ Swap<int>(ref x, ref y);
 Swap<string>(ref x, ref y);
 ```
 
-Multiple generic types can be specified to a method, seperated with a comma. ``` FunctionName<T,U>( ... ) ```
+Multiple generic types can be specified to a method, seperated with a comma. ``` MethodName<T,U>( ... ) ```
 
 ## Generic Classes
 
@@ -601,6 +601,80 @@ static void Main(string[] args) {
   StarWarsMovies.Get(3);  // returns "Rogue One"
 }
 ```
+
+Remember the Point struct from above?
+
+```
+struct Point {
+  public int x;
+  public int y;
+  public Point(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+```
+
+Use a Generic struct instead:
+
+```
+public struct Point<T> {
+  public T X;
+  public T Y;
+}
+
+// ...
+Point<int> intPoint;
+intPoint.X = 1;
+intPoint.Y = 2;
+
+Point<double> dblPoint;
+dblPoint.X = 1.2;
+dblPoint.Y = 3.4;
+```
+
+Now it's not limited to just integers.
+
+### Advantages of Generics (Methods & Classes)
+
+* Safety: Type checking is done at compile time instead of run-time, allowing bugs to be caught before release.
+* Maintainability: Much easier to maintain one version of the method/class than multiple overloads. This lets one set of code to be used for any datatype, includong future types.
+* Efficiency; The actual code for datatyped versions of a generic is done on demand (ones that are actually called) instead of multiple typed versions that may not be used.
+
+## Collections
+
+As said above, there are collections of generic classes like Stack<>. Another common one is List<>, also under the System.Collections.Generic namespace.
+
+|List<>.         | Function                       |
+|---------------:|--------------------------------|
+|.Add()          | Adds an item at the end of List|
+|.Clear()        | Removes all items from List.   |
+|.Contains()     | Checks for an item (bool).     |
+|.Count()        | Returns number of items in List|
+|.Insert()       | Adds an item at specified index|
+
+```
+List<string> colors = new List<string>();
+colors.Add("Red");
+colors.Add("Green");
+colors.Add("Blue");
+
+Console.WriteLine(colors.Count()); // outputs 3
+foreach (var color in colors) {
+  Console.WriteLine(color);
+  /* outputs:
+       Red
+       Green
+       Blue
+  */
+}
+```
+
+Other Collections:
+
+* Dictionary<TKey, TValue> - key/value pairs
+* Queue<T> - FIFO (First In, First Out)
+* Stack<T> - LIFO (Last In, First Out)
 
 ## Files
 
