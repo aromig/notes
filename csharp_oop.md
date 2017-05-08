@@ -19,7 +19,7 @@ It's very important to have a break-out condition (ex: ```if (num == 1) return 1
 
 ## Overloading
 
-Multiple methods that have the same name but different parameters (of different datatypes and/or number of parameters).
+Multiple methods that have the same name but different parameters (of different data types and/or number of parameters).
 
 ```
 static void printVariable(string thing) {
@@ -31,14 +31,144 @@ static void printVariable(int thing) {
 }
 ```
 
-## Stack vs Heap (static vs dynamic memory allocation)
+## Classes
 
-* Values -> Stack
-* References (such as objects, pointers) -> Heap
+A class is a collection of items such as fields & methods that share the same attributes and actions. It contains items that relate to each other in a logical fashion: attributes, actions, behaviors, etc.
+
+```
+public class Person {
+  string name;
+  int age;
+  
+  public void SayHello() {
+    Console.WriteLine("Hello");
+  }
+}
+
+static void Main(string[] args) {
+  Person p = new Person();
+  p.SayHello(); // outputs "Hello"
+}
+```
+
+## Structs
+
+A struct is a value type that is used to encapsulate small groups of related variables. It's like a class, but simpler.
+
+Structs can:
+
+* contain methods, properies, fields, etc.
+* have constructors _with_ parameters.
+
+This differs from a class as it _does not_ support inheritance, virtual methods, etc.
+
+|Structs|Classes|
+|-------|-------|
+|small data structures|complex behavior or data|
+|not intended to be modified after created|intended to be modified after created|
+
+Think of structs as a __custom data type__!
+
+```
+struct Book {
+  public string title;
+  public double price;
+  public sring author;
+}
+
+struct Point {
+  public int x;
+  public int y;
+  public Point(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
+static void Main(string[] args) {
+  Book myBook;
+  myBook.title = "The Fellowship of the Rings";
+  myBook.author = "J.R.R. Tolkien";
+  myBook.price = 29.99;
+  
+  Point p = new Point(42, 69);
+  
+  Console.WriteLine(myBook.title); // outputs "The Fellowship of the Ring"
+  Console.WriteLine(p.x); // outputs 42
+}
+```
+
+## Value Types & Reference Types
+
+Built-in data types (such as _string_, _int_, _double_, _structs_) are used to declare variabels that are __value types__. When a value type instance is created, a single space in memory is allocated to store its value. When the program accesses a value type, it's directly accessing its underlying data.
+
+__Reference types__ (such as a class) are handled differently. An object is created in memory and the class instantiation is a reference to that.
+
+```
+Point p1 = new Point();       // Point is a *struct*, which allocates a value in memory
+Form f1 = new Form();         // Form is a *class*, which allocates the object (new Form) in memory and a reference (f1)
+
+Point p2 = p1;                // p2 is a copy of p1 but a seperate value in memory
+Form f2 = f1;                 // f2 is a copy of the reference f1, still pointing to the first object that was created
+
+Point myPoint = new Point(0, 0);  // a new value type variable
+Form myForm = new Form();         // a new reference-type variable
+Test(myPoint, myForm);            // Test() is a method defined below
+
+void Test(Point p, Form f) {
+  p.X = 100;                      // No effect on myPoint since p is a copy
+  f.Text = "Hello, World";        // myForm.Text is changed to "Hello, World" since myForm and f point to the same object
+  f = null;                       // f is now null (erased) but no effect on myForm; f is only a copy of the reference
+}
+```
+
+However if the parameters are passed by reference (using the ref modifier), there are different results. _ref_ passes the original variable to the method, not a copy.
+
+```
+Point myPoint = new Point(0, 0);      // a new value type variable
+Form myForm = new Form();             // a new reference-type variable
+Test(ref myPoint, ref myForm);        // pass myPoint and myForm by reference
+
+void Test (ref Point p, ref Form f); {
+  p.X = 100;                          // myPoint.X is changed to 100
+  f.Text = "Hello, World";            // myForm.Text is changed to "Hello, World"
+  f = null;                           // Both f and myForm are null (erased)
+}
+```
+
+### Memory Allocation
+
+the .Net CLR (Common Language Runtime) allocates memory for objects in two places: the _stack_ and the _heap_.
+
+The stack is a simple first-in last-out (FILO) memory structure. When a method is invoked, the CLR bookmarks the top of the stack, and then _pushes_ data onto the stack when it executes. When the method completes, the CLR resets back to its previous state, essentially _popping_ the method's memory allocations from it.
+
+The heap is described better as a random mess of objects. This allows objects to be allocated and de-allocated in a random order. Memory managers and garbage collectors help keep this area of memory tidy.
+
+Example:
+
+```
+void CreateTextBox() {
+  string txt = "Hello World";
+  TextBox myTextBox = new TextBox(txt);
+}
+```
+
+|Stack|Heap |
+|-----|-----|
+|txt (containing "Hello World") |     |
+|myTextBox reference|TextBox object (with properties such as Location, Size, Text)|
+
+The stack is always used to store:
+* The _reference_ portion of reference-type local variables and parameters (i.e. myTextBox reference)
+* Value type local variables and method parameters (structs, int, string, bool, char, DateTime, etc)
+
+The heap stores:
+* The _content_ of reference type objects
+* Anything structured inside a reference type object (e.g. variables inside of a class)
 
 ## Encapsulation
 
-Encapsulation is more than combining members (such as fields and methods) in a class. Its purpose is more about "protecting" members of a class and the ability to hide information from other parts of the program.
+Encapsulation is the process of organizing related items (such as fields, properties, methods, etc) within a logical unit. This process is more than combining members in a class. Its purpose is more about "protecting" members of a class and the ability to hide information from other parts of the program. This can be implemented by using access modifiers. These modifiers define the scope and visibility of a class member.
 
 Fields & methods are accessible:
 * public - outside of the class
@@ -85,7 +215,15 @@ Fast and effective way to declare private members via properties if you do not n
 public string Name { get; set; }
 ```
 
-## Constructors
+### Abstraction
+
+Abstraction is providing only essential information to the rest of the program and hiding the rest of it so it's only usable to the class itself. Seperation of concerns is a big deal in object oriented programming. Here we are separating code that relates to interface and implementation.
+
+Abstraction and Encapsulation are related. Abstraction allows making relevant information visible and Encapsulation enables a programmer to implement the desired level of abstraction.
+
+## Constructors & Deconstructors
+
+### Constructors
 
 Method that is defined within a class and is invoked _upon instantiation_. It has the exact same name as its class, has no return type, and is always public.
 
@@ -120,7 +258,7 @@ static void Main(string[] args) {
 }
 ```
 
-## Deconstructors
+### Deconstructors
 
 Method that is defined within a class and is invoked when an object is destroyed. It has the exact same name as its class and is prefixed with a tilde (~).
 
@@ -432,53 +570,6 @@ Sometimes this is needed for semantics and separation of concerns which in turns
 
 Namespaces are scopes of a program that contain sets of related objects. All .Net framework classes are organized into namespaces and custom namespaces can be created as well. When referencing a class, it can be specified either by its fully qualified name (namespace.class) ``` System.Console.WriteLine("Hello"); ``` or it can be shortened to just the class name if the namespace is specified at the beginning of the source code ``` using System; ``` then later ``` Console.WriteLine("Hello"); ```.
 
-## Structs
-
-A struct is a value type that is used to encapsulate small groups of related variables.
-
-Structs can:
-
-* contain methods, properies, fields, etc.
-* have constructors _with_ parameters.
-
-This differs from a class as it _does not_ support inheritance, virtual methods, etc.
-
-|Structs|Classes|
-|-------|-------|
-|small data structures|complex behavior or data|
-|not intended to be modified after created|intended to be modified after created|
-
-Think of structs as a __custom datatype__!
-
-```
-struct Book {
-  public string title;
-  public double price;
-  public sring author;
-}
-
-struct Point {
-  public int x;
-  public int y;
-  public Point(int x, int y) {
-    this.x = x;
-    this.y = y;
-  }
-}
-
-static void Main(string[] args) {
-  Book myBook;
-  myBook.title = "The Fellowship of the Rings";
-  myBook.author = "J.R.R. Tolkien";
-  myBook.price = 29.99;
-  
-  Point p = new Point(42, 69);
-  
-  Console.WriteLine(myBook.title); // outputs "The Fellowship of the Ring"
-  Console.WriteLine(p.x); // outputs 42
-}
-```
-
 ## Enums
 
 Enumerations are types that contain a set of named constants in an indexed list. The indices are consecutive but the numbers can be changed somewhat.
@@ -495,7 +586,7 @@ Console.WriteLine(x); // outputs 6
 
 ## Generic Methods
 
-Generic methods allow a method to be used with multiple datatypes. They can be used in place of overloading methods, resulting in less code to write & maintain.
+Generic methods allow a method to be used with multiple data types. They can be used in place of overloading methods, resulting in less code to write & maintain.
 
 Instead of writing:
 
@@ -523,7 +614,7 @@ static void Swap<T>(ref T a, ref T b) {
 }
 ```
 
-T is a __generic__ type. When calling the method the T is replaced by a matching datatype within the angle brackets.
+T is a __generic__ type. When calling the method the T is replaced by a matching data type within the angle brackets.
 
 ```
 Swap<int>(ref x, ref y);
@@ -535,7 +626,7 @@ Multiple generic types can be specified to a method, seperated with a comma. ```
 
 ## Generic Classes
 
-Classes can be generic along the same lines of thinking. A common use for a generic class is for defining collections of items, where adding & removing items are performed in the same way regardless of datatype.
+Classes can be generic along the same lines of thinking. A common use for a generic class is for defining collections of items, where adding & removing items are performed in the same way regardless of data type.
 
 A common generic class is a collection called a stack, where items are __pushed__ (added to the top of the stack) and __popped__ (removed from the top of the stack). This is usually referred to as LIFO (Last In, First Out) since the item that is removed on a pop operation is the last one that was recently added. The .Net Framework has this Stack<T> class built-in under the System.Collections.Generic namespace.
 
@@ -638,8 +729,8 @@ Now it's not limited to just integers.
 ### Advantages of Generics (Methods & Classes)
 
 * Safety: Type checking is done at compile time instead of run-time, allowing bugs to be caught before release.
-* Maintainability: Much easier to maintain one version of the method/class than multiple overloads. This lets one set of code to be used for any datatype, includong future types.
-* Efficiency; The actual code for datatyped versions of a generic is done on demand (ones that are actually called) instead of multiple typed versions that may not be used.
+* Maintainability: Much easier to maintain one version of the method/class than multiple overloads. This lets one set of code to be used for any data type, includong future types.
+* Efficiency; The actual code for data typed versions of a generic is done on demand (ones that are actually called) instead of multiple typed versions that may not be used.
 
 ## Collections
 
