@@ -138,7 +138,7 @@ void Test (ref Point p, ref Form f); {
 
 ### Memory Allocation
 
-the .Net CLR (Common Language Runtime) allocates memory for objects in two places: the _stack_ and the _heap_.
+The .Net CLR (Common Language Runtime) allocates memory for objects in two places: the _stack_ and the _heap_.
 
 The stack is a simple first-in last-out (FILO) memory structure. When a method is invoked, the CLR bookmarks the top of the stack, and then _pushes_ data onto the stack when it executes. When the method completes, the CLR resets back to its previous state, essentially _popping_ the method's memory allocations from it.
 
