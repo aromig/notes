@@ -611,6 +611,21 @@ Now it's not limited to just integers.
 * Maintainability: Much easier to maintain one version of the method/class than multiple overloads. This lets one set of code to be used for any data type, includong future types.
 * Efficiency; The actual code for data typed versions of a generic is done on demand (ones that are actually called) instead of multiple typed versions that may not be used.
 
+
+## Enums
+
+Enumerations are types that contain a set of named constants in an indexed list. The indices are consecutive but the numbers can be changed somewhat.
+
+```
+enum Days { Sun, Mon, Tue, Wed, Thu, Fri, Sat };
+// 0, 1, 2, 3, 4, 5, 6
+enum Days { Sun, Mon, Tue = 4, Wed, Thu, Fri, Sat };
+// 0, 1, 4, 5, 6, 7, 8
+
+int x = (int)Days.Thu;
+Console.WriteLine(x); // outputs 6
+```
+
 ## Collections
 
 As said above, there are collections of generic classes like Stack<>. Another common one is List<>, also under the System.Collections.Generic namespace.
@@ -690,20 +705,6 @@ static void Main(string[] args) {
 
 Namespaces are scopes of a program that contain sets of related objects. All .Net framework classes are organized into namespaces and custom namespaces can be created as well. When referencing a class, it can be specified either by its fully qualified name (namespace.class) ``` System.Console.WriteLine("Hello"); ``` or it can be shortened to just the class name if the namespace is specified at the beginning of the source code ``` using System; ``` then later ``` Console.WriteLine("Hello"); ```.
 
-## Enums
-
-Enumerations are types that contain a set of named constants in an indexed list. The indices are consecutive but the numbers can be changed somewhat.
-
-```
-enum Days { Sun, Mon, Tue, Wed, Thu, Fri, Sat };
-// 0, 1, 2, 3, 4, 5, 6
-enum Days { Sun, Mon, Tue = 4, Wed, Thu, Fri, Sat };
-// 0, 1, 4, 5, 6, 7, 8
-
-int x = (int)Days.Thu;
-Console.WriteLine(x); // outputs 6
-```
-
 ## Recursion
 
 Method that calls itself. A common example is solving a factorial i.e. n!
@@ -721,6 +722,8 @@ It's very important to have a break-out condition (ex: ```if (num == 1) return 1
 
 ## Overloading
 
+### Method Overloading
+
 Multiple methods that have the same name but different parameters (of different data types and/or number of parameters).
 
 ```
@@ -733,7 +736,7 @@ static void printVariable(int thing) {
 }
 ```
 
-## Operator Overloading
+### Operator Overloading
 
 Say we have this class:
 
