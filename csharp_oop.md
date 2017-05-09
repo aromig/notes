@@ -2,6 +2,8 @@
 
 # Object Oriented Programming (OOP) in C#
 
+OOP is a design philosophy where everything is grouped as self-sustainable "objects" allowing the programmer to gain reusability. An object in OOP is a set of code that can perform a set of related activities such as store information, perform actions, describe behaviors, etc. Simply in OOP terms, an object is an instance of a class.
+
 ## Classes
 
 A class is a collection of items such as fields & methods that share the same attributes and actions. It contains items that relate to each other in a logical fashion: attributes, actions, behaviors, etc.
@@ -21,6 +23,8 @@ static void Main(string[] args) {
   p.SayHello(); // outputs "Hello"
 }
 ```
+
+In order to use a class, it must be instantiated into an object. Above, the object _p_ is created by instantiating the _Person_ class as such: ```Person p = new Person();```. Then p becomes usable as an object. A class can be instantiated multiple times to create as many objects as needed.
 
 ## Structs
 
