@@ -278,3 +278,98 @@ Root Instance
 
 ### Data and Methods
 
+All properties found within a Vue instance's `data` object are added to Vue's _reactivity system_. When the values of those properties change, the view will _react_ and update them in the DOM to match the new values.
+
+```javascript
+// A data object, found in the wild.
+var data = {
+    a: 1
+}
+
+// data object doesn't have to be defined within the instance so we assign it too
+var vm = new Vue({
+    data: date
+})
+
+// These reference the same object
+vm.a === data.a // => true
+
+// Setting the property on the instance also affects the original data
+vm.a = 2
+data.a // => 2
+
+// and the other way around
+data.a = 3
+vm.a // => 3
+```
+
+So when `data.a` changes, the view will re-render to show that. However, only properties in `data` when the instance was created are _reactive_.
+
+If you add a new property later, like: `vm.b = 'hello'`, changes to `data.b` will not trigger any view updates.
+
+If you know you'll need a property later on, but it won't have a value immediately, set some sort of initial value:
+
+```javascript
+data: {
+    textThing: '',
+    numberThing: 0,
+    boolThing: false,
+    arrayThing: [],
+    error: null
+}
+```
+
+There are also a number of useful instance properties and methods special to Vue instances, which are prefixed with `$` to differentiate themselves from user-defined properties.
+
+```javascript
+var data = { a: 1 }
+var vm = new Vue({
+    el: '#example',
+    data: data
+})
+
+vm.$data === data // => true
+vm.$el === document.getElementById['example'] // => true
+
+// $watch is an instance method
+vm.$watch('a', function (newValue, oldValue) {
+    // This callback function will be called when vm.a chamges
+    // i.e. It "watches" 'a' and then calls the function
+})
+```
+
+**API Reference:** [Instance Properties](https://vuejs.org/v2/api/#Instance-Properties)
+
+### Instance Lifecycle Hooks
+
+Each Vue instance goes through a series of initialization steps when it's created such as:
+
+1. set up data observation
+2. compile the template
+3. mount the instance to the DOM
+4. update the DOM when data changes
+
+During these stages, it also runs functions called _lifecycle hooks_, giving users the opportunity to add their own code at specific stages. All lifecycle hooks are called with their `this` context pointing to the Vue instance invoking it.
+
+* created
+* mounted
+* updated
+* destroyed
+
+Example:
+```javascript
+var vm = new Vue({
+    data: {
+        a: 1
+    },
+    created: function () {
+        console.log('a is: ' + this.a)
+    }
+})
+// => "a is: 1"
+```
+
+**TIP:** Don't use [arrow functions](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions) on an options property or callback. Since arrow functions are bound to the parent context, `this` will not be the Vue instance you may be expecting, often resulting in errors.
+
+### Lifecycle Diagram
+
