@@ -958,7 +958,7 @@ It is often a good idea to bind to a style object directly so that the template 
 data: {
     styleObject: {
         color: red;
-        'font-size': 13px
+        'font-size': '13px'
     }
 }
 ```
