@@ -967,3 +967,83 @@ Again, the object syntax can be used in conjuction with computed properties that
 
 #### Array Syntax
 
+The array syntax for `v-bind:style` allows you to apply multiple style objects to the same element.
+
+```html
+<div v-bind:style="[baseStyles, overridingStyles]"></div>
+```
+
+#### Auto-prefixing
+
+When you use a CSS property that requires vendor prefixes (e.g. -webkit, -moz, -ms) in `v-bind:style`, Vue will automatically detect and add appropriate prefixes to the applied styles.
+
+#### Multiple Values
+
+You can provide an array of multiple (prefixed) values to a style property.
+
+```html
+<div v-bind:style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }"></div>
+```
+
+This will only render the last value in the array which the browser supports. So in this example, it will render `display: flex` for browsers that support the unprefixed version of flexbox.
+
+---
+---
+
+## Conditional Rendering
+
+### `v-if`
+
+In Vue, we can use the `v-if` directive to write out a conditional block which will render if its argument has a truthy value. We can also add an "else block" with `v-else`.
+
+```html
+<h1 v-if="ok">Yes</h1>
+<h1 v-else>No</h1>
+```
+
+#### Conditional Groups with `v-if` on `<template>`
+
+Since `v-if` is a directive, it needs to be attached to a single element. If you want to toggle more than one element, attach `v-if` to a `<template>` element. This element serves as an invisible wrapper (the final rendered results will not include the `<template>` element).
+
+```html
+<template v-if="ok">
+    <h1>Title</h1>
+    <p>Paragraph 1</p>
+    <p>Paragrah 2</p>
+</template>
+```
+
+#### `v-else`
+
+You can use the `v-else` directive to indicate an "else block" for `v-if`.
+
+```html
+<div v-if="Main.random() > 0.5">
+    How you see me
+</div>
+<div v-else>
+    Now you don't
+</div>
+```
+
+`v-else` must immedinately follow a `v-if` or a `v-else-if` element.
+
+#### `v-else-if`
+
+And of course, there's a way to use an "else if block" called `v-else-if`. It must immediately follow a `v-if' or another `v-else-if` element.
+
+```html
+<div v-if="type === 'A'">
+    A
+</div>
+<div v-else-if="type === 'B'">
+    B
+</div>
+<div v-else-if="type === 'C'">
+    C
+</div>
+<div v-else>
+    Not A/B/C
+</div>
+```
+
