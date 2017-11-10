@@ -1047,3 +1047,91 @@ And of course, there's a way to use an "else if block" called `v-else-if`. It mu
 </div>
 ```
 
+#### Controlling Reusable Elements with `key`
+
+Vue tries to render elements as efficiently as possible and re-use them so they aren't rendered from scratch too often. Obviously this is great for performance.
+
+Example:
+
+```html
+<template v-if="loginTyoe === 'username'">
+    <label>Username</label>
+    <input placeholder="Enter your username">
+</template>
+<template v-else>
+    <label>Email</label>
+    <input placeholder="Enter your email address">
+</template>
+```
+
+If `loginType`'s value changes from `'username'`, the text the user has already entered into the `<input>` will not be lost. Since both templates use the same elements, it is not replaced, only its `placeholder`.
+
+That's cool and all, but sometimes we don't want it to do that by default. Vue allows us to do that using the `key` attribute.
+
+```html
+<template v-if="loginTyoe === 'username'">
+    <label>Username</label>
+    <input placeholder="Enter your username" key="username-input">
+</template>
+<template v-else>
+    <label>Email</label>
+    <input placeholder="Enter your email address" key="email-input">
+</template>
+```
+
+Now when `loginType` changes from `'username'`, the input element will be re-rendered.
+
+### `v-show`
+
+Another way of conditionally displaying an element is the `v-show` directive.
+
+```html
+<h1 v-show="ok">Hi there.</h1>
+```
+
+This is ddifferent from `v-if`/`v-else` in that the element with `v-show` will always be rendered and remain in the DOM. `v-show` only toggles the `display` CSS property.
+
+**Note:** `v-show` doesn't support the `<template>` element, nor does it work with `v-else`.
+
+### `v-if` vs `v-show`
+
+`v-if` is "real" conditional rendering - it ensures event listeners and child components inside the conditional block are properly destroyed and re-created during toggles.
+
+It is also _lazy_ - if the condition is false on the initial render, it will not do anything. The conditional block will not be rendered until the condition becomes true for the first time.
+
+`v-show` is simpler - the element is always rendered regardless of initial condition (with CSS-based toggling).
+
+`v-if` - higher toggle costs
+
+`v-show` - higher initial render costs
+
+If you need something toggled often enough, use `v-show`. Use `v-if` if the condition is unlikely to change often.
+
+### `v-if` with `v-for`
+
+When `v-if` and `v-for` are used together, `v-for` has a higher priority, meaning that `v-if` will be run on each iteration of the `v-for` loop. This can be useful when you want to render nodes for only _some_ items:
+
+```html
+<li v-for="todo in todos" v-if="!todo.isComplete">
+    {{ todo }}
+</li>
+```
+
+Which will render only the todos that are not complete.
+
+If you want to conditionally skip execution of the loop, you can place the `v-if` on a wrapper element.
+
+```html
+<ul v-if="todos.length">
+    <li v-for="todo in todos">
+        {{ todos }}
+    </li>
+</ul>
+<p v-else>No todos left!</p>
+```
+
+---
+---
+
+## List Rendering
+
