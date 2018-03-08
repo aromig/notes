@@ -292,7 +292,7 @@ card.addEventListener('click', function() {
 });
 ```
 
-## Same Name Properties
+## Same Name Properties / Object Literals
 
 Instead of:
 ```js
@@ -315,7 +315,7 @@ const cat = {
 }
 ```
 
-## Method Definition
+## Method Definition / Concise Methods
 
 Old school:
 ```js
