@@ -267,6 +267,7 @@ let fullNames = names.map(name => ({first: name, last: 'romig'}) );
 With arrow functions, the value of `this` does not change. `this` is equal to whatever the parent is bound to.
 
 Problem:
+
 ```js
 card.addEventListener('click', function() {
     // add closing class to start closing animation
@@ -280,6 +281,7 @@ card.addEventListener('click', function() {
 ```
 
 Solution:
+
 ```js
 card.addEventListener('click', function() {
     // add closing class to start closing animation
@@ -295,6 +297,7 @@ card.addEventListener('click', function() {
 ## Same Name Properties / Object Literals
 
 Instead of:
+
 ```js
 const cat = {
     first: first,
@@ -318,6 +321,7 @@ const cat = {
 ## Method Definition / Concise Methods
 
 Old school:
+
 ```js
 var modal = {
     create: function(selector) {
@@ -464,7 +468,7 @@ console.log(name, number, website);
 ### Default values if they don't exist
 
 ```js
-const [name, number, website, fav_food = 'tacos'] = details; 
+const [name, number, website, fav_food = 'tacos'] = details;
 console.log(fav_food); // tacos
 ```
 
@@ -558,15 +562,17 @@ for (const student of students) {
 }
 ```
 
-# ES7
+## ES7
 
 Array Includes
+
 ```js
 ['a', 'b', 'c'].includes('a'); // true
 ['a', 'b', 'c'].includes('x'); // false
 ```
 
 Exponential Operator
+
 ```js
 let a = 2 ** 3; // 8
 ```
