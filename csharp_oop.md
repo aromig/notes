@@ -8,7 +8,7 @@ OOP is a design philosophy where everything is grouped as self-sustainable "obje
 
 A class is a collection of items such as fields & methods that share the same attributes and actions. It contains items that relate to each other in a logical fashion: attributes, actions, behaviors, etc.
 
-```
+```c#
 public class Person {
   string name;
   int age;
@@ -44,7 +44,7 @@ This differs from a class as it _does not_ support inheritance, virtual methods,
 
 Think of structs as a __custom data type__!
 
-```
+```c#
 struct Book {
   public string title;
   public double price;
@@ -79,7 +79,7 @@ static void Main(string[] args) {
 
 Method that is defined within a class and is invoked _upon instantiation_. It has the exact same name as its class, has no return type, and is always public.
 
-```
+```c#
 class Person {
   public string Name { get; set; }
   
@@ -93,7 +93,7 @@ class Person {
 
 Can be useful for setting initial values via parameters.
 
-```
+```c#
 class Person {
   private string name;
   public Person(string nm) {
@@ -116,7 +116,7 @@ Method that is defined within a class and is invoked when an object is destroyed
 
 Deconstructors can be useful for releasing resources such as closing files, releasing memory, etc.
 
-```
+```c#
 class Person {
   ~Person() {
     // stuff to do when object is destroyed
@@ -128,7 +128,7 @@ class Person {
 
 Static variables and methods belong only to the __class__, not the object that is created from the class. Within memory, there is __only one__ copy of the static member. This member must be accessed by the _class name_, not the object.
 
-```
+```c#
 class Cat {
   public static int count = 0;
   public static void Meow() {
@@ -155,7 +155,7 @@ Static classes can only contain static members and cannot be instantiated into a
 
 Use the __this__ keyboard inside a class to refer to the current instance of the class (the current object).
 
-```
+```c#
 class Person {
   private string name;
   public Person(string name) {
@@ -180,7 +180,7 @@ Built-in data types (such as _string_, _int_, _double_, _structs_) are used to d
 
 __Reference types__ (such as a class) are handled differently. An object is created in memory and the class instantiation is a reference to that.
 
-```
+```c#
 Point p1 = new Point();       // Point is a *struct*, which allocates a value in memory
 Form f1 = new Form();         // Form is a *class*, which allocates the object (new Form) in memory and a reference (f1)
 
@@ -200,7 +200,7 @@ void Test(Point p, Form f) {
 
 However if the parameters are passed by reference (using the ref modifier), there are different results. _ref_ passes the original variable to the method, not a copy.
 
-```
+```c#
 Point myPoint = new Point(0, 0);      // a new value type variable
 Form myForm = new Form();             // a new reference-type variable
 Test(ref myPoint, ref myForm);        // pass myPoint and myForm by reference
@@ -222,7 +222,7 @@ The heap is described better as a random mess of objects. This allows objects to
 
 Example:
 
-```
+```c#
 void CreateTextBox() {
   string txt = "Hello World";
   TextBox myTextBox = new TextBox(txt);
@@ -235,10 +235,12 @@ void CreateTextBox() {
 |myTextBox reference|TextBox object (with properties such as Location, Size, Text)|
 
 The stack is always used to store:
+
 * The _reference_ portion of reference-type local variables and parameters (i.e. myTextBox reference)
 * Value type local variables and method parameters (structs, int, string, bool, char, DateTime, etc)
 
 The heap stores:
+
 * The _content_ of reference type objects
 * Anything structured inside a reference type object (e.g. variables inside of a class)
 
@@ -247,6 +249,7 @@ The heap stores:
 Encapsulation is the process of organizing related items (such as fields, properties, methods, etc) within a logical unit. This process is more than combining members in a class. Its purpose is more about "protecting" members of a class and the ability to hide information from other parts of the program. This can be implemented by using access modifiers. These modifiers define the scope and visibility of a class member.
 
 Fields & methods are accessible:
+
 * public - outside of the class
 * private - only from within the class
 * protected - from within the class __AND__ derived classes
@@ -254,7 +257,7 @@ Fields & methods are accessible:
 
 Fields that are to be accessed outside of the class should be private. They should be accessed/modified via a _property_ (get, set). This allows regulation of data, verification, and security.
 
-```
+```c#
 class Person {
   private string name; // field
   private int age = 0;
@@ -287,7 +290,7 @@ static void Main(string[] args) {
 
 Fast and effective way to declare private members via properties if you do not need any custom logic. Do not need to declare the private field separately.
 
-```
+```c#
 public string Name { get; set; }
 ```
 
@@ -308,7 +311,7 @@ Inheritance refers to when a class is defined based on another class and it inhe
 
 Inheritance allows the derived class to reuse code from the base class without needing to rewrite it.
 
-```
+```c#
 class Animal {
   public int Legs { get; set; }
   public int Age { get; set; }
@@ -348,7 +351,7 @@ __virtual__ - used on the base class method
 
 __override__ - used on the derived class methods
 
-```
+```c#
 class Hero {
   public virtual void Weapon() {
     Console.WriteLine("Fisticuffs");
@@ -395,7 +398,7 @@ Abstract classes & methods:
 
 Why do this? Because in some situations, there is no meaningful need for the virtual method to have a separate definition in the base class. The class is declared as abstract to provide a _template_. This also prevents accidental coding issues when working on a team. Only define a base class as abstract if it is never meant to be used as an object itself.
 
-```
+```c#
 abstract class Shape {
   public abstract void Draw();
 }
@@ -425,7 +428,7 @@ An interface is a completely abstract class, containing only abstract properties
 
 An interface simply describes what a class should do. The class implementing the interface must define how to accomplish the behaviors.
 
-```
+```c#
 public interface IShape {
   void Draw();
 }
@@ -448,7 +451,7 @@ A class can inherit from just one base class but it can implement _multiple_ int
 
 Classes can also be members of another class.
 
-```
+```c#
 class Car {
   string model;
   public Car(string mdl) {
@@ -469,7 +472,7 @@ Generic methods allow a method to be used with multiple data types. They can be 
 
 Instead of writing:
 
-```
+```c#
 static void Swap(ref int a, ref int b) {
   int temp = a;
   a = b;
@@ -485,7 +488,7 @@ static void Swap(ref string a, ref string b) {
 
 We can write:
 
-```
+```c#
 static void Swap<T>(ref T a, ref T b) {
   T temp = a;
   a = b;
@@ -495,13 +498,13 @@ static void Swap<T>(ref T a, ref T b) {
 
 T is a __generic__ type. When calling the method the T is replaced by a matching data type within the angle brackets.
 
-```
+```c#
 Swap<int>(ref x, ref y);
 
 Swap<string>(ref x, ref y);
 ```
 
-Multiple generic types can be specified to a method, seperated with a comma. ``` MethodName<T,U>( ... ) ```
+Multiple generic types can be specified to a method, seperated with a comma. `MethodName<T,U>( ... )`
 
 ## Generic Classes
 
@@ -515,7 +518,7 @@ A common generic class is a collection called a stack, where items are __pushed_
 
 While the below example is not the Stack<> class exactly (and far from a perfect implementation), it should show what we're talking about.
 
-```
+```c#
 public class Stack<T> {
   readonly int max_Size;
   int index = 0;
@@ -574,7 +577,7 @@ static void Main(string[] args) {
 
 Remember the Point struct from above?
 
-```
+```c#
 struct Point {
   public int x;
   public int y;
@@ -587,7 +590,7 @@ struct Point {
 
 Use a Generic struct instead:
 
-```
+```c#
 public struct Point<T> {
   public T X;
   public T Y;
@@ -616,7 +619,7 @@ Now it's not limited to just integers.
 
 Enumerations are types that contain a set of named constants in an indexed list. The indices are consecutive but the numbers can be changed somewhat.
 
-```
+```c#
 enum Days { Sun, Mon, Tue, Wed, Thu, Fri, Sat };
 // 0, 1, 2, 3, 4, 5, 6
 enum Days { Sun, Mon, Tue = 4, Wed, Thu, Fri, Sat };
@@ -638,7 +641,7 @@ As said above, there are collections of generic classes like Stack<>. Another co
 |.Count()        | Returns number of items in List|
 |.Insert()       | Adds an item at specified index|
 
-```
+```c#
 List<string> colors = new List<string>();
 colors.Add("Red");
 colors.Add("Green");
@@ -680,7 +683,7 @@ __namespace__: using System.IO;
 
 An indexers allows objects to be indexed like an array. Declaration happens similar to a property except that indexer accessors require an index.
 
-```
+```c#
 class Group {
   private string[] names = new string[10];
   
@@ -709,7 +712,7 @@ Namespaces are scopes of a program that contain sets of related objects. All .Ne
 
 Method that calls itself. A common example is solving a factorial i.e. n!
 
-```
+```c#
 static int Factorial(int num) {
   if (num == 1)
     return 1;
@@ -726,7 +729,7 @@ It's very important to have a break-out condition (ex: ```if (num == 1) return 1
 
 Multiple methods that have the same name but different parameters (of different data types and/or number of parameters).
 
-```
+```c#
 static void printVariable(string thing) {
   Console.WriteLine(thing);
 }
@@ -740,7 +743,7 @@ static void printVariable(int thing) {
 
 Say we have this class:
 
-```
+```c#
 class Box {
   public int Height { get; set; }
   public int Width { get; set; }
@@ -762,7 +765,7 @@ We can do so by creating a special method called an __overloaded operator__. The
 
 This example will be be overloading the + operator:
 
-```
+```c#
 class Box {
   public int Height { get; set; }
   public int Width { get; set; }
