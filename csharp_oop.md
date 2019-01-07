@@ -32,7 +32,7 @@ A struct is a value type that is used to encapsulate small groups of related var
 
 Structs can:
 
-* contain methods, properies, fields, etc.
+* contain methods, properties, fields, etc.
 * have constructors _with_ parameters.
 
 This differs from a class as it _does not_ support inheritance, virtual methods, etc.
@@ -216,7 +216,7 @@ void Test (ref Point p, ref Form f); {
 
 The .Net CLR (Common Language Runtime) allocates memory for objects in two places: the _stack_ and the _heap_.
 
-The stack is a simple first-in last-out (FILO) memory structure. When a method is invoked, the CLR bookmarks the top of the stack, and then _pushes_ data onto the stack when it executes. When the method completes, the CLR resets back to its previous state, essentially _popping_ the method's memory allocations from it.
+The stack is a simple last-in first-out (LIFO) memory structure. When a method is invoked, the CLR bookmarks the top of the stack, and then _pushes_ data onto the stack when it executes. When the method completes, the CLR resets back to its previous state, essentially _popping_ the method's memory allocations from it.
 
 The heap is described better as a random mess of objects. This allows objects to be allocated and de-allocated in a random order. Memory managers and garbage collectors help keep this area of memory tidy.
 
